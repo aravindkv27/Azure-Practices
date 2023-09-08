@@ -4,9 +4,15 @@ import boto3
 # To create ec2 intance
 def create_instance():
 
+    security_group_id_input = input("Enter the security group id: ")
+
+    name_of_the_instances = input("Enter the Instances Name: ")
+
+    security_group_ids.append(security_group_id_input)
+
     ec2 = boto3.resource('ec2')
 
-    security_group_ids = ['']
+    security_group_ids = []
 
     instance = ec2.create_instances(
         ImageId='ami-053b0d53c279acc90',
@@ -21,7 +27,7 @@ def create_instance():
     instance[0].wait_until_running()
 
     # Add a "Name" tag to the instance
-    instance[0].create_tags(Tags=[{'Key': 'Name', 'Value': 'deploy-node-app'}])
+    instance[0].create_tags(Tags=[{'Key': 'Name', 'Value': name_of_the_instances}])
 
     return instance[0]  # Return the first (and only) instance in the list
 
@@ -62,7 +68,7 @@ def stop_and_terminate():
 
 
 # print(instance_details())
-stop_and_terminate()
+# stop_and_terminate()
 
-# instances = create_instance()
-# print(instances.id)
+instances = create_instance()
+print(instances.id)
