@@ -67,8 +67,8 @@ def stop_and_terminate():
     print(f"{terminate} Terminatted")
 
 
-# print(instance_details())
+print(instance_details())
 # stop_and_terminate()
 
-instances = create_instance()
-print(instances.id)
+# instances = create_instance()
+# print(instances.id)
