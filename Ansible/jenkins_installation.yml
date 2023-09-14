@@ -1,0 +1,56 @@
+---
+
+- name: Java Installation
+  hosts: testserver
+  become: yes
+
+  tasks:
+    - name: Update package
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+    
+    - name: Install Java JRE
+      apt:
+        name: default-jre
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Java JDK
+      apt:
+        name: default-jdk
+
+    - name:
+      shell: java -version
+
+- name: Jenkins Installation
+  hosts: testserver
+  become: yes
+
+  tasks:
+    - name: Add repository key
+      shell: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --dearmor -o /usr/share/keyrings/jenkins-archive-keyring.gpg
+      
+
+    - name: Add jenkins APT repository
+      shell: echo "deb [signed-by=/usr/share/keyrings/jenkins-archive-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list
+      become_method: sudo
+      args:
+        warn: false
+      
+    - name: Update package
+      apt: 
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt: 
+        name: jenkins
+        
+    - name: Start Jenkins service
+      service: 
+        name: jenkins
+        state: started
+        enabled: yes
+
+### Firewall
+# sudo ufw allow 8080
+# sudo ufw status
