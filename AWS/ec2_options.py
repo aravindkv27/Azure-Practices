@@ -4,11 +4,13 @@ import boto3
 # To create ec2 intance
 def create_instance():
 
-    security_group_id_input = input("Enter the security group id: ")
+    # security_group_id_input = input("Enter the security group id: ")
 
     name_of_the_instances = input("Enter the Instances Name: ")
 
-    security_group_ids.append(security_group_id_input)
+    # security_group_ids.append(security_group_id_input)
+
+    security_group_ids = ['sg-0673eea67ae7c452c']
 
     ec2 = boto3.resource('ec2')
 
@@ -54,8 +56,8 @@ def stop_and_terminate():
     ec2 = boto3.resource('ec2')
 
     # Calling instance_details function to get the running instances ids.
-    instances = instance_details()
-    instance_id = instances[1]
+    # instances = instance_details()
+    instance_id = input("Enter the instance id: ")
 
     # print(instance_id)
 
@@ -67,8 +69,8 @@ def stop_and_terminate():
     print(f"{terminate} Terminatted")
 
 
-print(instance_details())
-# stop_and_terminate()
+# print(instance_details())
+stop_and_terminate()
 
 # instances = create_instance()
 # print(instances.id)
